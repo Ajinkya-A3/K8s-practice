@@ -1,0 +1,32 @@
+apiVersion: v1 
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-pod
+    image: busybox:1.28
+    command: ['sh', '-c']
+    args: ['echo Hello Kubernetes! && sleep 3600']
+    env:
+    - name: MY_NAME
+      value: "atlas"
+  initContainers:
+  - name: init-myservice
+    image: busybox:1.28
+    command: ['sh', '-c']
+    args: ['until nslookup myservice.default.svc.cluster.local; do echo waiting for myservice; sleep 5; done;']
+     
+     # kubectl logs pod/myapp -c init-myservice
+
+     # kubectl create deploy nginx-deploy --image nginx --port 80 --replicas=3
+
+    #  kubectl expose deploy nginx-deploy --name myservice --port 80 
+
+    # after this command, we can see the service created in the default namespace which will cause this myapp pod to run as it found the service it was waiting for
+
+    # kubectl exec -it myapp -- printenv | grep MY_NAME this will print the value of MY_NAME env variable 
+
+    # for main application pod to be up and running all the init container should complete successfully
