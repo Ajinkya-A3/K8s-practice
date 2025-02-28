@@ -11,3 +11,7 @@ spec:
       targetPort: 80
       nodePort: 30001
   type: NodePort
+
+  # kubectl expose deploy nginx --name=nginx-service --port=80 --target-port=80 --type=NodePort --node-port=30001
+  
+  # this command will have same effect as the above yaml file
