@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox:1.28
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+
+# in cronjob * * * * * means that the cron job will run every minute
+# each * represents a different time unit
+# 1st * represents minute
+# 2nd * represents hour
+# 3rd * represents day of the month
+# 4th * represents month
+# 5th * represents day of the week
