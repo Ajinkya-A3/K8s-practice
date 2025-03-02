@@ -1,0 +1,36 @@
+# kubectl run redis --image=redis --dry-run=client -o yaml > redis.yaml
+# added new pod yaml file for redis
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: redis
+  name: redis
+spec:
+  containers:
+  - image: redis
+    name: redis
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - "ssd"
+status: {}
+
+# Warning  FailedScheduling  5m3s  default-scheduler  0/4 nodes are available:
+#  1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: },
+#  3 node(s) didn't match Pod's node affinity/selector. preemption: 0/4 nodes 
+#  are available: 4 Preemption is not helpful for scheduling.
+
+
+# k label node test-worker disktype=ssd 
+# labeled node "test-worker"
