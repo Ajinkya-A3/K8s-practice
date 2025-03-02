@@ -14,3 +14,6 @@ spec:
          memory: "1000Gi"
      command: ["stress"]
      args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
+
+     # this pod will not be scheduled because the limit is set to 1000Gi 
+     # and node does not have that much memory
